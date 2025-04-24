@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora de Funil Imobiliário</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #2e86de;
+      color: white;
+      padding: 10px 15px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #1b4f72;
+    }
+    .resultado {
+      background: white;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Calculadora de Funil Imobiliário</h1>
+  <label for="metaVendas">Meta de vendas:</label>
+  <input type="number" id="metaVendas" placeholder="Ex: 5" />
+
+  <label for="taxaFechamento">Taxa de fechamento (%):</label>
+  <input type="number" id="taxaFechamento" placeholder="Ex: 20" />
+
+  <label for="taxaQualificacao">Taxa de leads qualificados (%):</label>
+  <input type="number" id="taxaQualificacao" placeholder="Ex: 40" />
+
+  <label for="taxaConversao">Taxa de conversão na landing page (%):</label>
+  <input type="number" id="taxaConversao" placeholder="Ex: 10" />
+
+  <button onclick="calcularFunil()">Calcular</button>
+
+  <div class="resultado" id="resultado" style="display: none;"></div>
+
+  <script>
+    function calcularFunil() {
+      const vendas = parseFloat(document.getElementById('metaVendas').value);
+      const fechamento = parseFloat(document.getElementById('taxaFechamento').value) / 100;
+      const qualificacao = parseFloat(document.getElementById('taxaQualificacao').value) / 100;
+      const conversao = parseFloat(document.getElementById('taxaConversao').value) / 100;
+
+      if (isNaN(vendas) || isNaN(fechamento) || isNaN(qualificacao) || isNaN(conversao)) {
+        alert('Preencha todos os campos corretamente.');
+        return;
+      }
+
+      const leadsQualificados = vendas / fechamento;
+      const leadsGerados = leadsQualificados / qualificacao;
+      const visitantes = leadsGerados / conversao;
+
+      const resultado = `
+        <h3>Resultados:</h3>
+        <p><strong>Leads qualificados necessários:</strong> ${leadsQualificados.toFixed(0)}</p>
+        <p><strong>Leads totais necessários:</strong> ${leadsGerados.toFixed(0)}</p>
+        <p><strong>Visitantes na landing page necessários:</strong> ${visitantes.toFixed(0)}</p>
+      `;
+
+      const divResultado = document.getElementById('resultado');
+      divResultado.innerHTML = resultado;
+      divResultado.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
